@@ -7,6 +7,9 @@
 # p "#{item2[:name]} is the hot new toy which is #{item2[:color]} and #{item2[:size]} at the low low price of $#{item2[:price]}"
 
 class Item
+  attr_reader :name, :color, :size, :price
+  attr_writer :name, :color, :size, :price
+
   def initialize(name, color, size, price)
     @name = name
     @color = color
@@ -22,4 +25,8 @@ end
 item1 = Item.new("name", "color", "size", 10)
 
 p item1
-p item1.sales_pitch
+item1.sales_pitch
+p item1.name
+item1.name = "test"
+p item1.name
+item1.sales_pitch
