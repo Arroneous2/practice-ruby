@@ -8,25 +8,32 @@
 
 class Item
   attr_reader :name, :color, :size, :price
-  attr_writer :name, :color, :size, :price
+  attr_writer :price
 
-  def initialize(name, color, size, price)
-    @name = name
-    @color = color
-    @size = size
-    @price = price
+  def initialize(input_name, input_color, input_size, input_price)
+    @name = input_name
+    @color = input_color
+    @size = input_size
+    @price = input_price
   end
 
   def sales_pitch()
-    p "#{@name} is the hot new toy which is #{@color} and #{@size} at the low low price of #{@price}"
+    p "#{name} is the hot new toy which is #{color} and #{size} at the low low price of #{price}"
   end
+
+  def fire_sale()
+    @price = @price * 0.5
+  end
+
 end
 
-item1 = Item.new("name", "color", "size", 10)
+item1 = Item.new("Hot Wheels", "yellow", "small", 10)
 
 p item1
 item1.sales_pitch
-p item1.name
-item1.name = "test"
-p item1.name
+p item1.price
+item1.price = 15
+p item1.price
 item1.sales_pitch
+item1.fire_sale
+p item1.price
