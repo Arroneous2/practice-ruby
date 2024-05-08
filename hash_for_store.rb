@@ -64,12 +64,12 @@ class Manager < Employee
 end
 
 class Store
-  attr_reader :current_shift_employee, :items
-  attr_writer
+  attr_reader :current_shift_employees, :inventory
 
   def initialize(input)
-    @items = [input[:item]]
-    @current_shift_employees = [input[:current_shift_employee]] 
+    @cash = input[:cash]
+    @inventory = {input[:item].name => input[:item]}
+    @current_shift_employees = {input[:current_shift_employee].get_full_name => input[:current_shift_employee]} 
   end
 
   def get_current_shift_names()
@@ -81,14 +81,42 @@ class Store
   end
 
   def add_current_shift_employee(current_shift_employee)
-    @current_shift_employees.push(current_shift_employee)
+    @current_shift_employees[current_shift_employee.get_full_name] = current_shift_employee
   end
 
+  def get_inventory_names()
+    inventory_names = []
+    @inventory.each {|item|
+      inventory_names.push(item.name)
+    }  
+    return inventory_names
+  end
+  
   def add_item(item)
-    @items.push(item)
+    @inventory[item.name] = item
   end
 
-  get
+  def get_inventory_value()
+    inventory_value = 0
+    inventory_hash_keys = @inventory.keys()
+    inventory_hash_keys.each {|item_hash_key|
+      inventory_value += @inventory[item_hash_key].price * @inventory[item_hash_key].stock
+    }
+    return inventory_value
+  end
+
+  def purchase_item()
+    p "What is it you'd like to purchase for the list of goods below?"
+    p self.get_inventory_names
+    desired_item = gets.chomp
+
+    #see if the item exists
+
+    #Ask for Money
+    #Transaction
+  end
+
+  
 
 end
 
@@ -100,9 +128,9 @@ employee1 = Employee.new(first_name: "Aaron", last_name: "Riggs", salary: 90000,
 employee2 = Employee.new(first_name: "Bob", last_name: "Billy", salary: 80000, employed: false)
 
 
-store1 = Store.new({item: item1, current_shift_employee: employee1})
+store1 = Store.new({item: item1, current_shift_employee: employee1, cash: 1000})
 store1.add_current_shift_employee(employee2)
 store1.add_item(item2)
-p store1.items
+p store1.get_inventory_value
 
 
