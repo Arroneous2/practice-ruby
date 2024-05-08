@@ -64,11 +64,11 @@ class Manager < Employee
 end
 
 class Store
-  attr_reader :current_shift_employee, :items_arry
+  attr_reader :current_shift_employee, :items
   attr_writer
 
   def initialize(input)
-    @items_arry = [input[:item]]
+    @items = [input[:item]]
     @current_shift_employees = [input[:current_shift_employee]] 
   end
 
@@ -84,10 +84,16 @@ class Store
     @current_shift_employees.push(current_shift_employee)
   end
 
-  
+  def add_item(item)
+    @items.push(item)
+  end
+
+  get
+
 end
 
-item1 = Item.new({name: "Hot Wheels", color: "yellow", size: "small", price: 10, stock: 100})
+item1 = Item.new({name: "Hot Wheels", color: "red", size: "small", price: 10, stock: 100})
+item2 = Item.new({name: "Tonka Truck", color: "yellow", size: "medium", price: 40, stock: 50})
 
 
 employee1 = Employee.new(first_name: "Aaron", last_name: "Riggs", salary: 90000, employed: true)
@@ -96,7 +102,7 @@ employee2 = Employee.new(first_name: "Bob", last_name: "Billy", salary: 80000, e
 
 store1 = Store.new({item: item1, current_shift_employee: employee1})
 store1.add_current_shift_employee(employee2)
-p store1.get_current_shift_names
-
+store1.add_item(item2)
+p store1.items
 
 
