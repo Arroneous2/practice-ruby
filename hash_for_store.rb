@@ -10,12 +10,12 @@ class Item
   attr_reader :name, :color, :size, :price, :stock
   attr_writer :price
 
-  def initialize(input_name, input_color, input_size, input_price, input_stock)
-    @name = input_name
-    @color = input_color
-    @size = input_size
-    @price = input_price
-    @stock = input_stock
+  def initialize(input)
+    @name = input[:name]
+    @color = input[:color]
+    @size = input[:size]
+    @price = input[:price]
+    @stock = input[:stock]
   end
 
   def sales_pitch()
@@ -35,15 +35,23 @@ class Item
   end
 end
 
-item1 = Item.new("Hot Wheels", "yellow", "small", 10, 100)
+class Store
+  attr_reader :item, :current_shift_employees, :items_arry
+  attr_writer :item, :current_shift_employees,  
 
-p item1
-item1.sales_pitch
-p item1.price
-item1.price = 15
-p item1.price
-item1.sales_pitch
-item1.fire_sale(20)
-p item1.price
-item1.enough_stock(100)
-item1.enough_stock(101)
+  def initialize(input)
+    @items_arry = []
+    @item = input[:item]
+    @current_shift_employees = input[:current_shift_employees] 
+  end
+end
+
+
+
+item1 = Item.new({name: "Hot Wheels", color: "yellow", size: "small", price: 10, stock: 100})
+current_shift_employees1 = []
+
+store1 = Store.new({item: item1, current_shift_employees: current_shift_employees1})
+p store1
+
+
