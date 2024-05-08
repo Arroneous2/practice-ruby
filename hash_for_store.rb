@@ -8,7 +8,7 @@
 
 class Item
   attr_reader :name, :color, :size, :price, :stock
-  attr_writer :price
+  attr_writer :name, :color, :size, :price, :stock
 
   def initialize(input)
     @name = input[:name]
@@ -72,12 +72,8 @@ class Store
     @current_shift_employees = {input[:current_shift_employee].get_full_name => input[:current_shift_employee]} 
   end
 
-  def get_current_shift_names()
-    current_shift_names = []
-    @current_shift_employees.each {|current_shift_employee|
-      current_shift_names.push(current_shift_employee.get_full_name)
-    }  
-    return current_shift_names
+  def get_current_shift_names() 
+    return @current_shift_employees.keys()
   end
 
   def add_current_shift_employee(current_shift_employee)
@@ -85,11 +81,7 @@ class Store
   end
 
   def get_inventory_names()
-    inventory_names = []
-    @inventory.each {|item|
-      inventory_names.push(item.name)
-    }  
-    return inventory_names
+    return @inventory.keys()
   end
   
   def add_item(item)
@@ -111,9 +103,15 @@ class Store
     desired_item = gets.chomp
 
     #see if the item exists
+    while !@inventory.has_key?(desired_item)
+      p "Sorry that doesn't exists please enter again"
+      desired_item = gets.chomp
+    end
 
-    #Ask for Money
-    #Transaction
+    p "Ok the cost of #{desired_item} is $#{@inventory[desired_item].price}."
+    p "Please take your #{desired_item}"
+
+    @inventory[desired_item].stock= @inventory[desired_item].stock - 1
   end
 
   
@@ -131,6 +129,7 @@ employee2 = Employee.new(first_name: "Bob", last_name: "Billy", salary: 80000, e
 store1 = Store.new({item: item1, current_shift_employee: employee1, cash: 1000})
 store1.add_current_shift_employee(employee2)
 store1.add_item(item2)
-p store1.get_inventory_value
+store1.purchase_item()
+p store1.inventory["Hot Wheels"]
 
 
