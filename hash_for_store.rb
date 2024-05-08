@@ -35,19 +35,6 @@ class Item
   end
 end
 
-class Store
-  attr_reader :item, :current_shift_employee, :items_arry
-  attr_writer :item, :current_shift_employee,  
-
-  def initialize(input)
-    @items_arry = []
-    @item = input[:item]
-    @current_shift_employee = input[:current_shift_employee]
-    @current_shift_employees = [] 
-  end
-end
-
-
 class Employee
   attr_reader :first_name, :last_name, :salary, :employed
   attr_writer :first_name, :last_name, :salary, :employed
@@ -63,6 +50,10 @@ class Employee
     p "#{@first_name} #{@last_name} makes $#{@salary} per year."
   end
 
+  def get_full_name()
+    return "#{@first_name} #{@last_name}"
+  end
+
 end
 
 class Manager < Employee
@@ -72,15 +63,40 @@ class Manager < Employee
   end
 end
 
-item1 = Item.new({name: "Hot Wheels", color: "yellow", size: "small", price: 10, stock: 100})
-current_shift_employee1 = []
+class Store
+  attr_reader :current_shift_employee, :items_arry
+  attr_writer
 
-store1 = Store.new({item: item1, current_shift_employee: current_shift_employee1})
+  def initialize(input)
+    @items_arry = [input[:item]]
+    @current_shift_employees = [input[:current_shift_employee]] 
+  end
+
+  def get_current_shift_names()
+    current_shift_names = []
+    @current_shift_employees.each {|current_shift_employee|
+      current_shift_names.push(current_shift_employee.get_full_name)
+    }  
+    return current_shift_names
+  end
+
+  def add_current_shift_employee(current_shift_employee)
+    @current_shift_employees.push(current_shift_employee)
+  end
+
+  
+end
+
+item1 = Item.new({name: "Hot Wheels", color: "yellow", size: "small", price: 10, stock: 100})
+
 
 employee1 = Employee.new(first_name: "Aaron", last_name: "Riggs", salary: 90000, employed: true)
+employee2 = Employee.new(first_name: "Bob", last_name: "Billy", salary: 80000, employed: false)
 
-employee1.print_info
 
+store1 = Store.new({item: item1, current_shift_employee: employee1})
+store1.add_current_shift_employee(employee2)
+p store1.get_current_shift_names
 
 
 
